@@ -1,4 +1,4 @@
-package com.dev.carrental_project.security.service;
+package com.dev.carrental_project.security;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.lecture.carrental.domain.User;
 import lombok.AllArgsConstructor;
