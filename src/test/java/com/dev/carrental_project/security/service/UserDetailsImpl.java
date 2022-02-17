@@ -17,7 +17,7 @@ public class UserDetailsImpl implements UserDetails {
     private Long id;
     private String email;
 
-    @JsonIgnore   //kullanicinin girdigi passvordu görünmez sekilde yazar **** seklinde
+    @JsonIgnore   //kullanicinin girdigi passwordu görünmez sekilde yazar ama bu islem icinde projenin sonunda extra bir islem yapilacak
     private String password;
     private Collection<? extends GrantedAuthority> authorities;
     public static UserDetailsImpl build(User user) {
