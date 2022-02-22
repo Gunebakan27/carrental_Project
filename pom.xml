@@ -8,10 +8,10 @@
         <version>2.5.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.lecture</groupId>
-    <artifactId>carrental</artifactId>
+    <groupId>com.dev</groupId>
+    <artifactId>carrental_project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>carrental</name>
+    <name>carrental_project</name>
     <description>carrental</description>
     <properties>
         <java.version>11</java.version>
