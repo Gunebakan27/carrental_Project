@@ -1,7 +1,11 @@
 package com.dev.carrental_project.security.config;
 
-
+import com.dev.carrental_project.security.jwt.AuthEntryPointJwt;
+import com.dev.carrental_project.security.jwt.AuthTokenFilter;
+import com.dev.carrental_project.security.service.UserDetailsServiceImpl;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -17,19 +21,26 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor //baska classlardan obje olusrurken hata vermemesi icin Cons anatasyonu kullandik
+@AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsServiceImpl userDetailsService;
+
+
     private final AuthEntryPointJwt authEntryPointJwt;
 
-    public AuthTokenFilter authenticationJwtTokenFilter(){
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
         return new AuthTokenFilter();
     }
-    public PasswordEncoder passwordEncoder(){
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+    @Bean
 
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
@@ -41,15 +52,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
-    @Override //guvenlikte en onemli class lardan biri
+    @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().and().cors().disable() //burayi daha sonra gelip degistirecegiz enable yapacagiz
-                .exceptionHandling()
-                .authenticationEntryPoint(authEntryPointJwt).and().sessionManagement()//yetksi burada sorguladik
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS).and().authorizeRequests()
-                .antMatchers("/car-rental/api/user/**")//buraya tekrar donup degisiklik yapacagiz. su an icin login olan userlara sayfgalara ersim izni verdik
+        http.csrf().and().cors().disable().exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .authorizeRequests().antMatchers("/car-rental/api/user/**")
                 .permitAll()
                 .anyRequest().authenticated();
+
+        http.csrf().and().cors().disable().exceptionHandling().authenticationEntryPoint(authEntryPointJwt).and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+                .antMatcher("/car-rental/api/register").antMatcher("/car-rental/api/login");
 
 
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -59,7 +72,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers();
     }
-
 
 
 }

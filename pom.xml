@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.dev</groupId>
-    <artifactId>carrental_Project</artifactId>
+    <artifactId>carrental_project</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>carrental_Project</name>
-    <description>carrental_Project</description>
+    <name>carrental_project</name>
+    <description>carrental</description>
     <properties>
         <java.version>11</java.version>
     </properties>
@@ -60,11 +60,18 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>javax.ws.rs</groupId>
             <artifactId>javax.ws.rs-api</artifactId>
             <version>2.0.1</version>
         </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
