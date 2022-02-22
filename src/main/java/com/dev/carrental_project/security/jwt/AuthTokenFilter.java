@@ -2,7 +2,6 @@ package com.dev.carrental_project.security.jwt;
 
 import com.dev.carrental_project.domain.User;
 import com.dev.carrental_project.repository.UserRepository;
-import com.dev.carrental_project.security.jwt.JwtUtils.java
 import com.dev.carrental_project.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -23,10 +22,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     private JwtUtils jwtUtils;
+
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
+
     @Autowired
     private UserRepository userRepository;
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
@@ -37,10 +39,12 @@ public class AuthTokenFilter extends OncePerRequestFilter {
                 Long id = jwtUtils.getIdFromJwtToken(jwt);
                 request.setAttribute("id", id);
                 Optional<User> user = userRepository.findById(id);
+
                 UserDetails userDetails = userDetailsService.loadUserByUsername(user.get().getEmail());
                 UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                         userDetails, null, userDetails.getAuthorities());
                 authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             }
         }catch (Exception e){
@@ -49,11 +53,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(request, response);
     }
+
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
+
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")){
             return headerAuth.substring(7);
         }
+
         return null;
     }
+
+
+
 }
