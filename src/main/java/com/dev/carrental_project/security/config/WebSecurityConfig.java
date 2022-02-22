@@ -1,6 +1,5 @@
 package com.dev.carrental_project.security.config;
 
-
 import com.dev.carrental_project.security.jwt.AuthEntryPointJwt;
 import com.dev.carrental_project.security.jwt.AuthTokenFilter;
 import com.dev.carrental_project.security.service.UserDetailsServiceImpl;
