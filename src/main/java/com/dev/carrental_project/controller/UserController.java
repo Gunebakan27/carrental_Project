@@ -2,10 +2,6 @@ package com.dev.carrental_project.controller;
 
 import com.dev.carrental_project.security.jwt.JwtUtils;
 import com.dev.carrental_project.service.UserService;
-import com.lecture.carrental.domain.User;
-import com.lecture.carrental.dto.UserDTO;
-import com.lecture.carrental.security.jwt.JwtUtils;
-import com.lecture.carrental.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
