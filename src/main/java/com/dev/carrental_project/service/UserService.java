@@ -3,12 +3,15 @@ package com.dev.carrental_project.service;
 import com.dev.carrental_project.domain.Role;
 import com.dev.carrental_project.domain.User;
 import com.dev.carrental_project.domain.enumeration.UserRole;
+
+import com.dev.carrental_project.dto.UserDTO;
 import com.dev.carrental_project.exception.AuthException;
 import com.dev.carrental_project.exception.BadRequestException;
 import com.dev.carrental_project.exception.ConflictException;
 import com.dev.carrental_project.exception.ResourceNotFoundException;
+
+
 import com.dev.carrental_project.repository.RoleRepository;
-import com.dev.carrental_project.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -20,7 +23,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Service
 public class UserService {
-    private final UserRepository userRepository;
+    private final com.dev.carrental_project.repository.UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final static String USER_NOT_FOUND_MSG="user with id %d not found";
     private final PasswordEncoder passwordEncoder;
