@@ -1,7 +1,9 @@
-package com.lecture.carrental.repository;
+package com.dev.carrental_project.repository;
 
-import com.lecture.carrental.domain.Role;
-import com.lecture.carrental.domain.enumeration.UserRole;
+
+
+import com.dev.carrental_project.domain.Role;
+import com.dev.carrental_project.domain.enumeration.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
