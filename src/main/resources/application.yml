@@ -9,7 +9,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://localhost:3306/leccarrentaldb
+    url: jdbc:mysql://localhost:3306/devcarrental
     username: root
     password: Hsnbsry0909+
     driver-class-name: com.mysql.cj.jdbc.Driver
