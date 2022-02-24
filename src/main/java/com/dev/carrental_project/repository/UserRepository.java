@@ -1,10 +1,12 @@
-package com.lecture.carrental.repository;
+package com.dev.carrental_project.repository;
 
 
-import com.lecture.carrental.domain.User;
-import com.lecture.carrental.exception.ConflictException;
-import com.lecture.carrental.exception.ResourceNotFoundException;
+
+import com.dev.carrental_project.domain.User;
+import com.dev.carrental_project.exception.BadRequestException;
+import com.dev.carrental_project.exception.ResourceNotFoundException;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +17,18 @@ import java.util.Optional;
 @Transactional
 public interface UserRepository extends JpaRepository<User, Long> {
 
-    // @Query("SELECT u FROM User u WHERE u.email=?1") --> Default olarak olusturuluyor
+    //    @Query("SELECT u From User u Where u.email = ?1") --> Default olarak olusturuluyor
+
     Optional<User> findByEmail(String email);
+    Boolean existsByEmail(String email) throws ResourceNotFoundException;
 
-    Boolean existsByEmail(String email) throws ResourceNotFoundException; //findByEmail ile de bakabilir. donus geliyorsa true gibi
+    @Modifying
+    @Query("UPDATE User u " +
+            "SET u.firstName = ?2, u.lastName = ?3, u.phoneNumber = ?4, " +
+            "u.email = ?5, u.address = ?6, u.zipCode = ?7 " +
+            "WHERE u.id = ?1")
 
+
+    void update(Long id, String firstName, String lastName, String phoneNumber, String email, String address,
+                String zipCode) throws BadRequestException;
 }
