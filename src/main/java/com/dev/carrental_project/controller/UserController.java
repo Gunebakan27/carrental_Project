@@ -1,9 +1,13 @@
 package com.dev.carrental_project.controller;
 
 import com.dev.carrental_project.domain.User;
+<<<<<<< HEAD
 import com.dev.carrental_project.dto.AdminDTO;
 import com.dev.carrental_project.dto.UserDTO;
 import com.dev.carrental_project.projection.ProjectUser;
+=======
+import com.dev.carrental_project.dto.UserDTO;
+>>>>>>> main
 import com.dev.carrental_project.security.jwt.JwtUtils;
 import com.dev.carrental_project.service.UserService;
 import lombok.AllArgsConstructor;
@@ -124,6 +128,7 @@ public class UserController {
 
         userService.updateUserAuth(id, adminDTO);
 
+<<<<<<< HEAD
         Map<String, Boolean> map = new HashMap<>();
         map.put("success", true);
 
@@ -140,4 +145,6 @@ public class UserController {
 
         return new ResponseEntity<>(map, HttpStatus.OK);
     }
+=======
+>>>>>>> main
 }
