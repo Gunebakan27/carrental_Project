@@ -37,6 +37,7 @@ public class UserDTO {
         this.roles = roles;
     }
     //class entity table olusturmadigi icin column kullanilmaz
+
     @Size(max = 15)
     @NotNull(message = "Please enter your first name")
     private String firstName;
@@ -53,10 +54,12 @@ public class UserDTO {
     @Size(min = 14, max = 14)
     @NotNull(message = "Please enter your phone number")
     private String phoneNumber;
+
     @Email(message = "Please enter valid email")
     @Size(min = 5, max = 150)
     @NotNull(message = "Please enter your email")
     private String email;
+
     @Size(max = 250)
     @NotNull(message = "Please enter your address")
     private String address;
@@ -78,3 +81,4 @@ public class UserDTO {
         this.roles = roles1;
     }
 }
+

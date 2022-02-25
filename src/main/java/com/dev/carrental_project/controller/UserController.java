@@ -2,12 +2,6 @@ package com.dev.carrental_project.controller;
 
 import com.dev.carrental_project.domain.User;
 
-import com.dev.carrental_project.dto.AdminDTO;
-import com.dev.carrental_project.dto.UserDTO;
-import com.dev.carrental_project.projection.ProjectUser;
-
-import com.dev.carrental_project.dto.UserDTO;
-
 import com.dev.carrental_project.security.jwt.JwtUtils;
 import com.dev.carrental_project.service.UserService;
 import lombok.AllArgsConstructor;

@@ -9,6 +9,7 @@ import com.dev.carrental_project.exception.AuthException;
 import com.dev.carrental_project.exception.BadRequestException;
 import com.dev.carrental_project.exception.ConflictException;
 import com.dev.carrental_project.exception.ResourceNotFoundException;
+
 import com.dev.carrental_project.dto.AdminDTO;
 
 
@@ -92,6 +93,7 @@ public class UserService {
         String hashedPassword=passwordEncoder.encode(newPassword);
         user.get().setPassword(hashedPassword);
         userRepository.save(user.get());
+
     } public void updateUserAuth(Long id, AdminDTO adminDTO) throws  BadRequestException{
 
         boolean emailExist=userRepository.existsByEmail(adminDTO.getEmail());
