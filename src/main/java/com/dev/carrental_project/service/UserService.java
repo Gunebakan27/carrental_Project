@@ -10,6 +10,8 @@ import com.dev.carrental_project.exception.BadRequestException;
 import com.dev.carrental_project.exception.ConflictException;
 import com.dev.carrental_project.exception.ResourceNotFoundException;
 
+import com.dev.carrental_project.dto.AdminDTO;
+
 
 import com.dev.carrental_project.repository.RoleRepository;
 import lombok.AllArgsConstructor;
@@ -91,5 +93,73 @@ public class UserService {
         String hashedPassword=passwordEncoder.encode(newPassword);
         user.get().setPassword(hashedPassword);
         userRepository.save(user.get());
+
+    } public void updateUserAuth(Long id, AdminDTO adminDTO) throws  BadRequestException{
+
+        boolean emailExist=userRepository.existsByEmail(adminDTO.getEmail());
+        Optional<User>userDetails=userRepository.findById(id);
+        if (userDetails.get().getBuiltIn()){
+            throw new BadRequestException("You dont have permission to update user");
+        }
+        adminDTO.setBuiltIn(false);
+
+        if (emailExist && ! adminDTO.getEmail().equals(userDetails.get().getEmail())){
+            throw new ConflictException("Error: Email is already in use");
+        }
+        if (adminDTO.getPassword()==null){
+            adminDTO.setPassword(userDetails.get().getPassword());
+        }else{
+            String encodedPassword=passwordEncoder.encode(adminDTO.getPassword());
+            adminDTO.setPassword(encodedPassword);
+        }
+        Set<String>userRoles=adminDTO.getRoles();
+        Set<Role>roles=addRoles(userRoles);
+
+        User user=new User(id, adminDTO.getFirstName(), adminDTO.getLastName(), adminDTO.getPassword(),
+                adminDTO.getPhoneNumber(), adminDTO.getEmail(), adminDTO.getAddress(), adminDTO.getZipCode(),
+                adminDTO.getBuiltIn(),roles);
+        userRepository.save(user);
+    }
+
+    public Set<Role> addRoles(Set<String> userRoles) {
+        Set<Role>roles=new HashSet<>();
+        if (userRoles==null){
+            Role userRole=roleRepository.findByName(UserRole.ROLE_CUSTOMER)
+                    .orElseThrow(()->new RuntimeException("Error: Role is not found"));
+            roles.add(userRole);
+        }else{
+            userRoles.forEach(role->{
+                switch (role){
+                    case "Administrator":
+                        Role adminRole=roleRepository.findByName(UserRole.ROLE_ADMIN)
+                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
+                        roles.add(adminRole);
+                        break;
+                    case "CustomerService":
+                        Role customerService=roleRepository.findByName(UserRole.ROLE_CUSTOMER_SERVICE)
+                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
+                        roles.add(customerService);
+                        break;
+                    case "Manager":
+                        Role manager=roleRepository.findByName(UserRole.ROLE_MANAGER)
+                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
+                        roles.add(manager);
+                        break;
+                    default:
+                        Role customer=roleRepository.findByName(UserRole.ROLE_CUSTOMER)
+                                .orElseThrow(()->new RuntimeException("Error: Role is not found"));
+                        roles.add(customer);
+                        break;
+                }
+            });
+        }return roles;
+    }
+    public void removeById(Long id) throws ResourceNotFoundException{
+        User user=userRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException(String.format(USER_NOT_FOUND_MSG,id)));
+        if (user.getBuiltIn()){
+            throw new BadRequestException("You dont have permission to delete this user!");
+        }
+        userRepository.deleteById(id);
     }
 }
