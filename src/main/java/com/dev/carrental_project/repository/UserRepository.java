@@ -1,7 +1,7 @@
 package com.dev.carrental_project.repository;
 
 
-
+import com.dev.carrental_project.projection.ProjectUser;
 import com.dev.carrental_project.domain.User;
 import com.dev.carrental_project.exception.BadRequestException;
 import com.dev.carrental_project.exception.ResourceNotFoundException;
